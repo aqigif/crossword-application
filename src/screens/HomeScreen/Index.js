@@ -1,41 +1,114 @@
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  Alert,
+  ScrollView
+} from "react-native";
+import { Body } from "native-base";
+import { Icon } from "react-native-elements";
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalVisible: false,
+      userSelected: [],
+      data: [
+        {id: 1,name: "Dunia Hewan",is_finished:0},
+        {id: 2,name: "Dunia Makanan",is_finished:1},
+      ]
+    };
+  }
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+  clickEventListener = item => {
+    Alert.alert("Message", "Item clicked. " + item.name);
+  };
 
-export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <FlatList
+          style={styles.contentList}
+          columnWrapperStyle={styles.listContainer}
+          data={this.state.data}
+          keyExtractor={item => {
+            return item.id;
+          }}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                style={styles.card}
+                onPress={() => {this.clickEventListener(item);}}>
+                {item.is_finished==1?
+                (<Icon name="check-circle" color='green' size={40} />):
+                (<View style={styles.circle}></View>)}
+                <View style={styles.cardContent}>
+                  <Text style={styles.name}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          }}
+        />
       </View>
     );
   }
 }
 
+export default HomeScreen
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: "#ebf0f7"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
+  contentList: {
+    flex: 1,
+  },
+  cardContent: {
+    marginLeft: 20,
+    marginTop:5
+  },
+  circle: {
+    borderWidth: 2,
+    width:36,
+    height:36,
+    borderRadius:36/2
+  },
+
+  card: {
+    shadowColor: "#00000021",
+    shadowOffset: {
+      width: 0,
+      height: 6
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+
     margin: 10,
+    backgroundColor: "white",
+    padding: 10,
+    flexDirection: "row",
+    borderRadius: 30
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+
+  name: {
+    fontSize: 18,
+    flex: 1,
+    alignSelf: "center",
+    color: "#000",
+    fontWeight: "bold"
+  },
+  count: {
+    fontSize: 14,
+    flex: 1,
+    alignSelf: "center",
+    color: "#6666ff"
   },
 });
