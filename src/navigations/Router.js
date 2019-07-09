@@ -2,12 +2,14 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer ,create
 
 import LoadingScreen from "../screens/Loading/Loading"
 import LoginScreen from "../screens/Login/index"
-import HomeScreen from "../screens/HomeScreen/index"
+import HomeScreen from "../screens/HomeScreen/Index"
+import CrosswodScreen from "../screens/CrosswodScreen/index"
 
 
 
 const AppStack = createStackNavigator({ 
   Home: HomeScreen, 
+  Crosswod: CrosswodScreen, 
 },{
   headerMode: 'none',
   navigationOptions: {
