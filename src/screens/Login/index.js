@@ -7,7 +7,8 @@ TextInput,
 TouchableOpacity,
 AsyncStorage,
 Alert,
-StatusBar
+StatusBar,
+ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -120,7 +121,9 @@ render(){
       <Text>Loading . . .</Text>
     </View>
     :
+  <ScrollView>
   <View style={styles.container}>
+  
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
   <View style={styles.wrapperForm} >
     <Text style={styles.title}>CROSSWORD GAME</Text>
@@ -177,7 +180,7 @@ render(){
     </TouchableOpacity>
     
 </View>
-  <View style={{justifyContent:'center',alignItems: 'center',position:"absolute",bottom:20}}>
+  <View style={{justifyContent:'center',alignItems: 'center'}}>
       <Text>Belum Mempunyai Akun ?</Text>
     <TouchableOpacity>
       <Text 
@@ -186,7 +189,7 @@ render(){
     </TouchableOpacity>
 </View>
 </View>
-
+</ScrollView>
 )}
 }
 

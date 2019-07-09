@@ -2,8 +2,9 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer ,create
 
 import LoadingScreen from "../screens/Loading/Loading"
 import LoginScreen from "../screens/Login/index"
-import HomeScreen from "../screens/Home/Index"
-import CrosswodScreen from "../screens/Crosswod/index"
+import RegisterScreen from "../screens/Register/index"
+import HomeScreen from "../screens/HomeScreen/Index"
+import CrosswodScreen from "../screens/CrosswodScreen/index"
 
 
 
@@ -15,7 +16,7 @@ const AppStack = createStackNavigator({
   navigationOptions: {
   headerVisible: false,
 },});
-const AuthStack = createStackNavigator({ Login: LoginScreen },{
+const AuthStack = createStackNavigator({ Login: LoginScreen, Register:RegisterScreen },{
   headerMode: 'none',
   navigationOptions: {
   headerVisible: false,

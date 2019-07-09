@@ -78,37 +78,37 @@ class CrosswordScreen extends Component {
     let result = []
     let col = 25
 
-    $questionNumber = 1;
-    index = 0;
-    for(let a = 0; a < col; a++){
-        indexes
-    }
+    // $questionNumber = 1;
+    // index = 0;
+    // for(let a = 0; a < col; a++){
+    //     indexes
+    // }
 
 
 
-    for(let a = 0; a < data.length; a++){
-        let indexes = data[a].indexes.split(",")
-        let answer = data[a].answer.split("")
-        for(let b = 0; b < indexes.length; b++){
-            if(b === 0){
-                result.push(
-                    {
-                        number: data[a].number,
-                        letter: data[a].answer,
-                        index: indexes[b]
-                    }
-                )
-            }else{
-                result.push(
-                    {
-                        letter: data[a].answer,
-                        index: indexes[b]
-                    }
-                )
-            }
-        }
-    }
-    console.log(result)
+    // for(let a = 0; a < data.length; a++){
+    //     let indexes = data[a].indexes.split(",")
+    //     let answer = data[a].answer.split("")
+    //     for(let b = 0; b < indexes.length; b++){
+    //         if(b === 0){
+    //             result.push(
+    //                 {
+    //                     number: data[a].number,
+    //                     letter: data[a].answer,
+    //                     index: indexes[b]
+    //                 }
+    //             )
+    //         }else{
+    //             result.push(
+    //                 {
+    //                     letter: data[a].answer,
+    //                     index: indexes[b]
+    //                 }
+    //             )
+    //         }
+    //     }
+    // }
+    // console.log(result)
 
 
     // const GRID = []

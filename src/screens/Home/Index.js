@@ -22,6 +22,7 @@ class HomeScreen extends Component {
       data: [
         {id: 1,name: "Dunia Hewan",is_finished:0},
         {id: 2,name: "Dunia Makanan",is_finished:1},
+        {id: 2,name: "Dunia Manji",is_finished:1},
       ]
     };
   }
