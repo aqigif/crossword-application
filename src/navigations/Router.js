@@ -3,8 +3,8 @@ import { createSwitchNavigator, createStackNavigator, createAppContainer ,create
 import LoadingScreen from "../screens/Loading/Loading"
 import LoginScreen from "../screens/Login/index"
 import RegisterScreen from "../screens/Register/index"
-import HomeScreen from "../screens/HomeScreen/Index"
-import CrosswodScreen from "../screens/CrosswodScreen/index"
+import HomeScreen from "../screens/Home/index"
+import CrosswodScreen from "../screens/Crosswod/index"
 
 
 
