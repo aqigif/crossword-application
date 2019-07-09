@@ -1,16 +1,38 @@
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createSwitchNavigator, createStackNavigator, createAppContainer ,createMaterialTopTabNavigator} from 'react-navigation';
 
-import TodoList from '../screens/TodoScreen/Index'
+import LoadingScreen from "../screens/Loading/Loading"
+import LoginScreen from "../screens/Login/index"
+import HomeScreen from "../screens/HomeScreen/index"
 
-const MainNavigator = createStackNavigator({
-  TodoList: {
-    screen: TodoList,
-    navigationOptions: ({ navigation }) => ({
-      title: `Todo List`,
-    }),
+
+
+const AppStack = createStackNavigator({ 
+  Home: HomeScreen, 
+},{
+  headerMode: 'none',
+  navigationOptions: {
+  headerVisible: false,
+},});
+const AuthStack = createStackNavigator({ Login: LoginScreen },{
+  headerMode: 'none',
+  navigationOptions: {
+  headerVisible: false,
+},});
+const AuthLoadingScreen = createStackNavigator({Loading:LoadingScreen },{
+  headerMode: 'none',
+  navigationOptions: {
+  headerVisible: false,
+},});
+
+
+
+export default createAppContainer(createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
   }
-});
-
-const RootNavigation = createAppContainer(MainNavigator);
-
-export default RootNavigation;
+));
