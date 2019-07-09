@@ -7,7 +7,8 @@ TextInput,
 TouchableOpacity,
 AsyncStorage,
 Alert,
-StatusBar
+StatusBar,
+ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -104,6 +105,7 @@ render(){
     :
   <View style={styles.container}>
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
+<ScrollView>
   <View style={styles.wrapperForm} >
     <Text style={styles.title}>REGISTER NEW ACCOUNT</Text>
     <View style={styles.inputBox} >
@@ -179,7 +181,7 @@ render(){
 
 
 </View>
-
+</ScrollView>
 </View>
 
 )}
@@ -200,7 +202,7 @@ title:{
 
 },
 inputBox: {
-    width:"90%",
+    width:"100%",
     borderRadius: 25,
     paddingHorizontal:16,
     paddingLeft:30,
@@ -236,7 +238,7 @@ icon: {
   right: 15
 },
 button: {
-    width:"90%",
+    width:"100%",
     backgroundColor:'#517da2',
     borderRadius: 25,
     marginVertical: 10,
