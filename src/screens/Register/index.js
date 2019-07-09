@@ -19,8 +19,7 @@ const axios = require('axios');
 export default class index extends Component {
     constructor(){
         super()
-      
-                      
+
         this.state={
             inputEmail:"",
             inputPassword:"",
@@ -29,8 +28,8 @@ export default class index extends Component {
             showPassword: true,
             isLoading:false
         }
-       
-      
+
+
     }
     changePwdType = () => {
       let newState;
@@ -59,20 +58,20 @@ export default class index extends Component {
       this.props.callback(password)
   };
 
-  
-  handleLogin =  () => {
+
+  handleRegister =  () => {
     if( this.state.inputEmail=="" || this.state.inputUsername=="" || this.state.inputPassword=="") {
       alert("Lengkapi Form Terlebih dahulu")  
     }else{ 
       this.setState({isLoading:true})
-      axios.post(`http://${configs.ipaddress}:3333/api/auth/login`,{
+      axios.post(`http://${configs.ipaddress}:3333/api/v1/users`,{
         "username" : this.state.inputUsername,
         "email" : this.state.inputEmail,
         "password" : this.state.inputPassword
       })
         .then (res => {
           this.setState({isLoading:false})
-          Alert.alert("Akun berhasil dibuat silahkan login")          
+          Alert.alert("Akun berhasil dibuat"," silahkan login")          
         })
       .catch(err =>{
         console.log(err)
@@ -80,14 +79,14 @@ export default class index extends Component {
         Alert.alert(
           'Gagal membuat akun',
           [
-            {text: 'COBA LAGI',  onPress:this.handleLogin},
+            {text: 'COBA LAGI',  onPress:this.handleRegister},
             {
               text: 'LOGIN',
               onPress: () => this.props.navigation.navigate('Login'),
               style: "default",
             },            
           ],
-         
+
         );
       })
     }
@@ -132,7 +131,6 @@ render(){
         placeholder="Masukan Email Anda"
         placeholderTextColor = "grey"
         returnKeyType = {"next"}
-        autoFocus = {true}
         onSubmitEditing={() => { this.secondTextInput }}
         onChangeText={(text)=>this.setState({
             inputEmail:text
@@ -174,12 +172,12 @@ render(){
 
     <TouchableOpacity 
       style={styles.button}
-      onPress={this.handleLogin}>
+      onPress={this.handleRegister}>
       <Text style={styles.buttonText}>DAFTAR</Text>
     </TouchableOpacity>
-    
-    
-    
+
+
+
 </View>
 
 </View>
@@ -199,7 +197,7 @@ title:{
   fontWeight:"700",
   color:"#1c313a",
   margin:10,
- 
+
 },
 inputBox: {
     width:"90%",
@@ -227,7 +225,7 @@ wrapperForm:{
   alignItems:"center",
   borderRadius:20,
   padding:10,
-  
+
 },
 wrapperInputPassword:{
   flexDirection:"row",
