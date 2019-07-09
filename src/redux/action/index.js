@@ -1,17 +1,12 @@
 
 import * as types from '../types';
 
-export const addTodos = value => ({
-  type: types.ADD_TODO,
+export const getBox = value => ({
+  type: types.getBox,
   payload: value
 });
 
-export const editTodos = value => ({
+export const answer = value => ({
   type: types.EDIT_TODOS,
   payload: value
 });
-
-export const removeTodos = id => ({
-  type: types.REMOVE_TODOS,
-  payload: id
-})
