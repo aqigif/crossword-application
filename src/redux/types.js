@@ -1,3 +1,8 @@
-export const ADD_TODO = 'ADD_TODO';
+export const GE = 'ADD_TODO';
 export const EDIT_TODOS = 'EDIT_TODOS';
-export const REMOVE_TODOS = 'REMOVE_TODOS';
+export const LOGIN = 'LOGIN';
+export const REGISTER = 'REGISTER';
+export const GETCROSSWORDS = 'GETCROSSWORDS';
+export const GETBOX = 'GETBOX';
+export const ANSWER = 'ANSWER';
+export const GETQUESTION = 'GETQUESTION'

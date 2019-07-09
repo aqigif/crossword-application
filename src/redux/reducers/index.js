@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import { createNavigationReducer } from 'react-navigation-redux-helpers';
 
 import RootNavigation from './../../navigations/Router';
-import todos from './todos';
+import crosswords from './crosswords';
 
 const router = createNavigationReducer(RootNavigation);
 
 const appReducer = combineReducers({
   router,
-  todos
+  crosswords
 })
 
 export default appReducer

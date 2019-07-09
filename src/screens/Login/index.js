@@ -12,11 +12,12 @@ StatusBar
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { Spinner } from 'native-base';
-const axios = require('axios');
 import configs from '../../../config'
 
+import * as actionCrosswords from '../../redux/action';
+import { connect } from 'react-redux';
 
-export default class index extends Component {
+class Login extends Component {
     constructor(){
         super()
       
@@ -25,8 +26,7 @@ export default class index extends Component {
             inputEmail:"",
             inputPassword:"",
             icEye: 'visibility-off',
-            showPassword: true,
-            isLoading:false
+            showPassword: true
         }
        
       
@@ -59,48 +59,61 @@ export default class index extends Component {
   };
 
   
-    handleLogin =  () => {
+    // handleLogin =  () => {
+    //   if( this.state.inputEmail=="" || this.state.inputPassword=="") {
+    //     alert("Lengkapi Form Terlebih dahulu")  
+    //   }else{ 
+    //     this.setState({isLoading:true})
+    //     axios.post(`http://${configs.ipaddress}:3333/api/auth/login`,{
+    //       "email" : this.state.inputEmail,
+    //       "password" : this.state.inputPassword
+    //     })
+    //       .then (res => {
+    //         console.log(res.data.token)
+    //         AsyncStorage.setItem('token', res.data.token);
+    //         if (res.data.token == null){
+    //           alert("Tidak Dapat Menemukan Akun")
+    //         }else{
+    //           this.setState({isLoading:false})
+    //           this.props.navigation.navigate('Home')
+    //         }
+    //       })
+    //     .catch(err =>{
+    //       console.log('erordi auth sign in:',err)
+    //       this.setState({isLoading:false})
+    //       Alert.alert(
+    //         'Tidak Dapat Menemukan Akun',
+    //         `Kelihatanya ${this.state.inputEmail} tidak cocok dengan akun yang ada. Jika Anda belum memiliki akun Chat, Anda dapat membuatnya sekarang. `,
+    //         [
+    //           {
+    //             text: 'BUAT AKUN',
+    //             onPress: () => this.props.navigation.navigate('Register'),
+    //             style: "default",
+    //           },
+    //           {text: 'COBA LAGI',  onPress:this.handleLogin},
+    //         ],
+           
+    //       );
+    //     })}
+    // }
+    handleLogin = async () => {
       if( this.state.inputEmail=="" || this.state.inputPassword=="") {
         alert("Lengkapi Form Terlebih dahulu")  
       }else{ 
-        this.setState({isLoading:true})
-        axios.post(`http://${configs.ipaddress}:3333/api/auth/login`,{
-          "email" : this.state.inputEmail,
-          "password" : this.state.inputPassword
-        })
-          .then (res => {
-            console.log(res.data.token)
-            AsyncStorage.setItem('token', res.data.token);
-            if (res.data.token == null){
-              alert("Tidak Dapat Menemukan Akun")
-            }else{
-              this.setState({isLoading:false})
-              this.props.navigation.navigate('Home')
-            }
-          })
-        .catch(err =>{
-          console.log('erordi auth sign in:',err)
+        this.setState({isLoading:false})
+        loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
+        console.log(loging)
+        if (loging){
           this.setState({isLoading:false})
-          Alert.alert(
-            'Tidak Dapat Menemukan Akun',
-            `Kelihatanya ${this.state.inputEmail} tidak cocok dengan akun yang ada. Jika Anda belum memiliki akun Chat, Anda dapat membuatnya sekarang. `,
-            [
-              {
-                text: 'BUAT AKUN',
-                onPress: () => this.props.navigation.navigate('Register'),
-                style: "default",
-              },
-              {text: 'COBA LAGI',  onPress:this.handleLogin},
-            ],
-           
-          );
-        })}
+          this.props.navigation.navigate('Home')
+        }
     }
-
+  }
 
 render(){
+  console.log(this.props)
   return(
-    (this.state.isLoading==true) 
+    (this.props.crosswords.isLoading==true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
@@ -176,6 +189,23 @@ render(){
 
 )}
 }
+
+const mapStateToProps = state => {
+  return {
+    crosswords: state.crosswords
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (value) => dispatch(actionCrosswords.login(value))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
 
 const styles = StyleSheet.create({
 container : {
