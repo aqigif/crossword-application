@@ -18,13 +18,15 @@ export const login = (value) => ({
     alert('Akun tidak ditemukan')
 })
 })
-export const register = () => ({
+export const register = (value) => ({
   type: types.REGISTER,
   payload: axios({
     method: "POST",
-    url: `https://${config.BASE_URL}/api/v1/users`,
+    url: `http://${config.BASE_URL}:3333/api/users`,
     data: {
-      value
+      username: value.username,
+      email: value.email,
+      password: value.password
     }
   })
 });

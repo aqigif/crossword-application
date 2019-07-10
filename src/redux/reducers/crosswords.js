@@ -17,7 +17,7 @@ export default function crosswords(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        data: action.payload.data.token
+        data: AsyncStorage.setItem('token',action.payload.data.token)
       };
     case "LOGIN_REJECTED":
       alert(action.payload.message)
@@ -26,6 +26,26 @@ export default function crosswords(state = initialState, action) {
         isLoading: false,
         error: action.payload.message
       };
+    case types.REGISTER:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "REGISTER_FULFILLED":
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload.data
+      };
+    case "REGISTER_REJECTED":
+      alert(action.payload.message)
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.message
+      };
+
+      
     case types.ADD_TODO:
       return {
         ...state,

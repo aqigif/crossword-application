@@ -9,14 +9,21 @@ import CrosswodScreen from "../screens/Crosswod/index"
 
 
 const AppStack = createStackNavigator({ 
-  Home: HomeScreen, 
-  Crosswod: CrosswodScreen, 
+  Home: {
+    screen:HomeScreen,
+  }, 
+  Crosswod:{ 
+    screen: CrosswodScreen,
+  }
+});
+const AuthStack = createStackNavigator({ 
+  Login: {
+   screen: LoginScreen
+  }, 
+  Register:{
+    screen:RegisterScreen,
+  } 
 },{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
-const AuthStack = createStackNavigator({ Login: LoginScreen, Register:RegisterScreen },{
   headerMode: 'none',
   navigationOptions: {
   headerVisible: false,
@@ -32,8 +39,8 @@ const AuthLoadingScreen = createStackNavigator({Loading:LoadingScreen },{
 export default createAppContainer(createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
     Auth: AuthStack,
+    App: AppStack,
   },
   {
     initialRouteName: 'AuthLoading',

@@ -16,8 +16,11 @@ import { Spinner } from 'native-base';
 import configs from '../../../config';
 const axios = require('axios');
 
+import * as actionCrosswords from '../../redux/action';
+import { connect } from 'react-redux';
 
-export default class index extends Component {
+
+class Register extends Component {
     constructor(){
         super()
 
@@ -60,39 +63,21 @@ export default class index extends Component {
   };
 
 
-  handleRegister =  () => {
-    if( this.state.inputEmail=="" || this.state.inputUsername=="" || this.state.inputPassword=="") {
+  handleRegister = async () => {
+    if( this.state.inputUsername=="" || this.state.inputEmail=="" || this.state.inputPassword=="") {
       alert("Lengkapi Form Terlebih dahulu")  
     }else{ 
-      this.setState({isLoading:true})
-      axios.post(`http://${configs.ipaddress}:3333/api/v1/users`,{
-        "username" : this.state.inputUsername,
-        "email" : this.state.inputEmail,
-        "password" : this.state.inputPassword
-      })
-        .then (res => {
-          this.setState({isLoading:false})
-          Alert.alert("Akun berhasil dibuat"," silahkan login")          
-        })
-      .catch(err =>{
-        console.log(err)
+      this.setState({isLoading:false})
+      register = await this.props.register({ username: this.state.inputUsername, email: this.state.inputEmail, password: this.state.inputPassword })
+      console.log(register)
+      if (register){
         this.setState({isLoading:false})
-        Alert.alert(
-          'Gagal membuat akun',
-          [
-            {text: 'COBA LAGI',  onPress:this.handleRegister},
-            {
-              text: 'LOGIN',
-              onPress: () => this.props.navigation.navigate('Login'),
-              style: "default",
-            },            
-          ],
-
-        );
-      })
-    }
+        alert('Success Membuat Akun, Silahkan Login')
+        this.props.navigation.navigate('Login')
+      }
   }
 
+  }
 
 render(){
   return(
@@ -105,7 +90,6 @@ render(){
     :
   <View style={styles.container}>
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
-<ScrollView>
   <View style={styles.wrapperForm} >
     <Text style={styles.title}>REGISTER NEW ACCOUNT</Text>
     <View style={styles.inputBox} >
@@ -181,11 +165,28 @@ render(){
 
 
 </View>
-</ScrollView>
+
 </View>
 
 )}
 }
+
+const mapStateToProps = state => {
+  return {
+    crosswords: state.crosswords
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    register: (value) => dispatch(actionCrosswords.register(value))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register);
 
 const styles = StyleSheet.create({
 container : {
@@ -202,7 +203,7 @@ title:{
 
 },
 inputBox: {
-    width:"100%",
+    width:"90%",
     borderRadius: 25,
     paddingHorizontal:16,
     paddingLeft:30,
@@ -238,7 +239,7 @@ icon: {
   right: 15
 },
 button: {
-    width:"100%",
+    width:"90%",
     backgroundColor:'#517da2',
     borderRadius: 25,
     marginVertical: 10,
