@@ -1,210 +1,231 @@
-import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  FlatList
-} from "react-native";
-import Box from './components/Box'
-// import console = require("console");
-// import console = require("console");
-// import console = require("console");
-// import console = require("console");
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ */
+
+import React, {Component} from 'react'
+import {View, 
+      FlatList, 
+      StyleSheet} from 'react-native'
+import { Input, 
+        Button,
+        Text, 
+        Item} from 'native-base'
+import axios from 'axios'
 
 
-class CrosswordScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        { 
-            id: 1,
-            number: 1,
-        }
-      ]
-    };
+export default class App extends Component {
+  constructor(){
+    super()
+    this.state= {
+      answers:[],
+      indexes:[],
+      userAnswer:[],
+    }
+  }  
+  componentWillMount(){
+    this.fetchAllAnswers()
+  }
+  async fetchAllAnswers(){
+    const rest = await axios.get(`http://192.168.0.23:3333/api/answers`)
+    .then(res => {
+      this.setState({answers: res.data.data})})
+    .catch(err => console.log(err))
+    
+    console.log(this.state.answers)
+    // let a=[1,2,3,4]
+    // let b=[5,6,7]
+    // let c=a.push(...b)
+    // console.log(a)
+    
+    // for(let i=0; i < this.state.answers.length; i++){
+    //   this.state.indexes.push(...this.state.answers[i].indexes.split(',').map(function(item){
+    //     return parseInt(item,10)
+    //   }))
+    // }
+    // this.setState({ myArray: [...this.state.myArray, ...[1,2,3] ] })    
+    
+    
+    // console.log(this.state.answers[0].indexes.split(',').map(function(item){
+    //       return parseInt(item,10)}))
+    
   }
   
   render() {
-    // const list = [0,1,2,3,4,5,8,13,18,23];
-    // const totalColumn = 25
-    // let column = []
-    // for(let i = 0; i < totalColumn; i++){
-	// 	column.push(
-    //        {key : i} 
-	// 	)
-    // }
     
-    const dummy = [
-        {
-            letter: null,
-            index: 0
-        },
-        {
-            number: 1,
-            letter: "a",
-            index: 1
-        },
-        {
-            letter: "s",
-            index: 2
-        },
-        {
-            letter: null,
-            index: 3
-        },
-        {
-            number: 2,
-            index: 4
-        }
-    ]
-   
-    const data = [
-        {
-            number: 1,
-            question: "pertanyaan",
-            answer: "asd",
-            indexes: "0,1,2"
-        },
-        {
-            number: 2,
-            question: "pertanyaan",
-            answer: "asd",
-            indexes: "4,5,6"
-        }
-    ]
-    let result = []
-    let col = 25
+    const list = [1,2,3,4,8,9,10,11,12,13,14,15,16,17,18,21,22,23,25,26,27,32,33,34,35]
+    // console.log("index di render")
+    // console.log(this.state.answers)
+    
+    var indexes = []
+    var letters = []
+    var i =-1
+    for(let a =0; a < this.state.answers.length; a++){
+      let index = this.state.answers[a].indexes.split(',').map(function(item){
+                  return parseInt(item,10)})
+      let letter = this.state.answers[a].answer.split('')
 
-    // $questionNumber = 1;
-    // index = 0;
-    // for(let a = 0; a < col; a++){
-    //     indexes
-    // }
+      for(let b = 0; b < index.length; b++){
+        indexes.push(
+          index[b]
+        )
+        letters.push(
+          letter[b]
+        )
+      }
+    }
+    var results =[]
+    var i =-1
+    for(let a =0; a < this.state.answers.length; a++){
+      let index = this.state.answers[a].indexes.split(',').map(function(item){
+                  return parseInt(item,10)})
+      let letter = this.state.answers[a].answer.split('')
 
-
-
-    // for(let a = 0; a < data.length; a++){
-    //     let indexes = data[a].indexes.split(",")
-    //     let answer = data[a].answer.split("")
-    //     for(let b = 0; b < indexes.length; b++){
-    //         if(b === 0){
-    //             result.push(
-    //                 {
-    //                     number: data[a].number,
-    //                     letter: data[a].answer,
-    //                     index: indexes[b]
-    //                 }
-    //             )
-    //         }else{
-    //             result.push(
-    //                 {
-    //                     letter: data[a].answer,
-    //                     index: indexes[b]
-    //                 }
-    //             )
-    //         }
-    //     }
-    // }
-    // console.log(result)
-
-
-    // const GRID = []
-    // $id = 1
-    // for(let a = 0; a < data.length; a++){
-        
-    //     let split = data[a].indexes.split(",")
-    //     for(let b = 0; b < split.length; b++){
-    //         if(b == 0){
-    //             GRID.push(
-    //                 {
-    //                     id: a,
-    //                     number: data[a].number
-    //                 }
-    //             )
-    //         }else{
-    //             GRID.push(
-    //                 {
-    //                     id: a
-    //                 }
-    //             )
-    //         }
-    //     }
-    // }
-    // console.log(GRID)
-    let grid= [
-        {
-          id: "1",
-          letter: null
-        },
-        {
-          id: "2",
-          letter: "a",
-          across: true,
-          clue_across: 1,
-          down: true,
-          clue_down: 1,
-          number: 2
-        },
-        {
-          id: "3",
-          letter: "r",
-          across: true,
-          clue_across: 1,
-          down: true,
-          clue_down: 1,
-          number: 3
-        }
-  ] 
-    return (
+      for(let b = 0; b < index.length; b++){
+        results.push({
+          letter: letter[b],
+          index: index[b]
+        })
+      }
+    }
+    console.log("results")
+    // console.log(indexes)
+    // console.log(letters)
+    console.log(results)
+    const data = Array.from({length:36}, (x,i) =>{
+      return {key:i}
+    })
+    const dataArray = Array(36)
+    for(let i = 0; i < 36; i++){
+      dataArray[i] = i
+    }
+    console.log("data")
+    // console.log(data)
+     return (
       <View style={styles.container}>
-        <View style={styles.crosswordBoxWrapper}>
-        <FlatList
-          data={grid}
-          numColumns={5}
-          renderItem={({item,index}) => {
-            return(
-              <Box key={item.id} letter={item.letter} across={item.across} number={item.number} 
-              answer={item.answer} />
-            )
-          }}
-        />
+        <View style={styles.viewCrossWord}>
+          <FlatList
+            data = {data}
+            numColumns={Math.sqrt(36)}
+            
+            renderItem={({item, index}) =>{
+              
+              if(indexes.includes(dataArray[index])){
+                i+=1 
+                return(
+                  <Input  style={styles.activeInput}
+                        maxLength={1}
+                        lowercase={false}
+                        autoCapitalize='characters'
+                        // placeholder={results.filter(result => result.index === item.key).map(result => result.letter).toString()}
+                        placeholder={dataArray[index].toString()}
+                        key={dataArray[index].toString()}/>
+                )
+              }else{
+                
+                return(
+                  <Input disabled style={styles.inactiveInput}/>
+                )
+              }
+              // if(results.some(result => result.index == item.key)){
+              //   i+=1
+              //   return(
+              //     <Input style={styles.activeInput}
+              //           maxLength={1}
+              //           lowercase={false}
+              //           autoCapitalize='characters'
+              //           placeholder={results.filter(item => item.index === item.key).map(item => item.letter).toString()}
+              //           // key={letters[item.key]}/>
+              //           />
+                  
+                  
+              //   )
+              // }else{
+              //   return(
+              //     <Input disabled style={styles.inactiveInput}/>
+              //   )
+              // }
+            }} 
+          />
+          <View style={styles.viewQuestion}>
+          <View style={styles.viewQuestionType}>
+            <Text style={styles.titleQuestionType}>Mendatar</Text>
+              {
+                this.state.answers.map((item, index) => (
+                  item.type === "mendatar" ? <Text key={index}>{item.question}</Text> : null
+          
+                ))
+              }
+          </View>
+          <View style={styles.viewQuestionType}> 
+            <Text style={styles.titleQuestionType}>Menurun</Text>
+            {
+              this.state.answers.map((item, index) => (
+                item.type === "menurun" ? <Text key={index}>{item.question}</Text> : null
+        
+              ))
+            }
+          </View>
         </View>
+        </View>
+        <Button><Text>Submit</Text></Button>
+        {/* <View style={styles.viewQuestion}>
+          <View style={styles.viewQuestionType}>
+            <Text style={styles.titleQuestionType}>Mendatar</Text>
+              {
+                this.state.answers.map((item, index) => (
+                  item.type === "mendatar" ? <Text key={index}>{item.question}</Text> : null
+          
+                ))
+              }
+          </View>
+          <View style={styles.viewQuestionType}> 
+            <Text style={styles.titleQuestionType}>Menurun</Text>
+            {
+              this.state.answers.map((item, index) => (
+                item.type === "menurun" ? <Text key={index}>{item.question}</Text> : null
+        
+              ))
+            }
+          </View>
+        </View> */}
+        
       </View>
-    );
+    )
   }
 }
-
-export default CrosswordScreen;
-
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 20,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    backgroundColor: "#000"
+  container:{
+    flex:1
   },
-  crosswordBoxWrapper: {
-    marginHorizontal:20,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    backgroundColor: "#000"
+  viewCrossWord:{
+    flex:2,
   },
-  inputCrossword: { height: "100%", width: "100%", textAlign: "center" },
-  crosswordBox: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    margin: 1,
-    width: 62,
-    height: 62
+  viewQuestion:{
+    flexDirection:'row',
+    flex:2,
+    justifyContent:'center'
+
   },
-  crosswordBoxBlack: {
-    backgroundColor: "#000",
-    borderRadius: 10,
-    margin: 1,
-    width: 62,
-    height: 62
+  viewQuestionType:{
+    margin: 10,
+  },
+  titleQuestionType:{
+    fontWeight:'bold'
+  },
+  activeInput:{
+    borderWidth:0.6,
+    borderRadius:5,
+    borderColor:'black',
+    textAlign:'center',
+  },
+  inactiveInput:{
+    backgroundColor:'black',
   }
-});
+})
+
+
+
