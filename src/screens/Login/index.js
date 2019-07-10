@@ -61,15 +61,20 @@ class Login extends Component {
       }else{ 
         this.setState({isLoading:true})
         loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
-        if(this.props.crosswords.saveToken!=null){
-          this.props.navigation.navigate('AuthLoadingScreen')
-        }else{
+        console.log('ini loging',loging);
+        if(AsyncStorage.getItem('token')){
+          this.setState({isLoading:false})
+          this.props.navigation.navigate('Home')
+        }else {
+          this.setState({isLoading:false})
           alert(this.props.crosswords.error)
         }
     }
   }
 
 render(){
+  console.log(this.props);
+  
   return(
     (this.state.isLoading===true) 
     ? 

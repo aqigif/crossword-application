@@ -12,7 +12,9 @@ import {
   AsyncStorage
 } from "react-native";
 import { Body } from "native-base";
-import { Icon } from "react-native-elements";
+import { Icon, Button } from "react-native-elements";
+import * as actionCrosswords from '../../redux/action';
+import { connect } from 'react-redux';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -32,7 +34,11 @@ class HomeScreen extends Component {
     Alert.alert("Message", "Item clicked. " + item.name);
   };
 
+
+
   render() {
+    console.log('ini prop dari home',this.props.menu);
+    
     return (
       <View style={styles.container}>
         <FlatList
@@ -57,12 +63,28 @@ class HomeScreen extends Component {
             );
           }}
         />
+        <Button title="logout" onPress={()=>[AsyncStorage.clear(),this.props.navigation.navigate('Login')]} />
       </View>
     );
   }
 }
 
-export default HomeScreen
+const mapStateToProps = state => {
+  return {
+    menu: state.menu
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    menu: () => dispatch(actionCrosswords.menu())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
