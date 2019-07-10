@@ -62,7 +62,7 @@ class Login extends Component {
         this.setState({isLoading:true})
         loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
         console.log('ini loging',loging);
-        if(AsyncStorage.getItem('token')){
+        if(loging){
           this.setState({isLoading:false})
           this.props.navigation.navigate('Home')
         }else {
