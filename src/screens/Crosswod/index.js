@@ -110,7 +110,6 @@ export default class App extends Component {
           <FlatList
             data = {data}
             numColumns={Math.sqrt(36)}
-            
             renderItem={({item, index}) =>{
               
               if(indexes.includes(dataArray[index])){
