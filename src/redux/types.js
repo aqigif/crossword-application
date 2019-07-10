@@ -6,3 +6,4 @@ export const GETCROSSWORDS = 'GETCROSSWORDS';
 export const GETBOX = 'GETBOX';
 export const ANSWER = 'ANSWER';
 export const GETQUESTION = 'GETQUESTION'
+export const GETMENU = 'GETMENU'

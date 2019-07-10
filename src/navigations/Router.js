@@ -7,6 +7,7 @@ import {
 
 import LoadingScreen from "../screens/Loading/Loading";
 import LoginScreen from "../screens/Login/index";
+import RegisterScreen from "../screens/Register/index";
 import HomeScreen from "../screens/Home/index";
 import CrosswodScreen from "../screens/Crosswod/index";
 
@@ -22,7 +23,9 @@ const AppStack = createStackNavigator({
 });
 
 const AuthStack = createStackNavigator(
-  { Login: LoginScreen },
+  { Login: LoginScreen,
+    Register: RegisterScreen
+  },
   {
     headerMode: "none",
     navigationOptions: {
