@@ -1,12 +1,13 @@
 import * as types from './../types';
 import {AsyncStorage} from 'react-native';
 const initialState = {
-  isLoading: false,
   data: [],
-  error: null
+  error: null,
+  isLoading: false,
+  saveToken: null
 }
 
-export default function crosswords(state = initialState, action) {
+function crosswords(state = initialState, action) {
   switch (action.type) {
     case types.LOGIN:
       return {
@@ -17,10 +18,9 @@ export default function crosswords(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        data: action.payload.data.token
+        saveToken: AsyncStorage.setItem('token', action.payload.data.token)
       };
     case "LOGIN_REJECTED":
-      alert(action.payload.message)
       return {
         ...state,
         isLoading: false,
@@ -53,3 +53,5 @@ export default function crosswords(state = initialState, action) {
       return state
   }
 }
+
+export default crosswords

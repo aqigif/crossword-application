@@ -1,41 +1,57 @@
-import { createSwitchNavigator, createStackNavigator, createAppContainer ,createMaterialTopTabNavigator} from 'react-navigation';
+import {
+  createSwitchNavigator,
+  createStackNavigator,
+  createAppContainer,
+  createMaterialTopTabNavigator
+} from "react-navigation";
 
-import LoadingScreen from "../screens/Loading/Loading"
-import LoginScreen from "../screens/Login/index"
-import RegisterScreen from "../screens/Register/index"
-import HomeScreen from "../screens/Home/index"
-import CrosswodScreen from "../screens/Crosswod/index"
+import LoadingScreen from "../screens/Loading/Loading";
+import LoginScreen from "../screens/Login/index";
+import HomeScreen from "../screens/Home/index";
+import CrosswodScreen from "../screens/Crosswod/index";
 
-
-
-const AppStack = createStackNavigator({ 
-  Home: HomeScreen, 
-  Crosswod: CrosswodScreen, 
-},{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
-const AuthStack = createStackNavigator({ Login: LoginScreen, Register:RegisterScreen },{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
-const AuthLoadingScreen = createStackNavigator({Loading:LoadingScreen },{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
-
-
-
-export default createAppContainer(createSwitchNavigator(
-  {
-    AuthLoading: AuthLoadingScreen,
-    App: AppStack,
-    Auth: AuthStack,
+const AppStack = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: () => ({
+      title: 'CrossWord'
+    }),
   },
-  {
-    initialRouteName: 'AuthLoading',
+  Crossword: {
+    screen: CrosswodScreen,
+    navigationOptions: () => ({
+      title: ``,
+    }),
   }
-));
+});
+const AuthStack = createStackNavigator(
+  { Login: LoginScreen },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
+const AuthLoadingScreen = createStackNavigator(
+  { Loading: LoadingScreen },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
+
+
+  const CrosswordRoute = createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "AuthLoading"
+    }
+  )
+  export default createAppContainer(CrosswordRoute);

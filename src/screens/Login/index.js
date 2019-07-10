@@ -58,60 +58,21 @@ class Login extends Component {
       this.props.callback(password)
   };
 
-  
-    // handleLogin =  () => {
-    //   if( this.state.inputEmail=="" || this.state.inputPassword=="") {
-    //     alert("Lengkapi Form Terlebih dahulu")  
-    //   }else{ 
-    //     this.setState({isLoading:true})
-    //     axios.post(`http://${configs.ipaddress}:3333/api/auth/login`,{
-    //       "email" : this.state.inputEmail,
-    //       "password" : this.state.inputPassword
-    //     })
-    //       .then (res => {
-    //         console.log(res.data.token)
-    //         AsyncStorage.setItem('token', res.data.token);
-    //         if (res.data.token == null){
-    //           alert("Tidak Dapat Menemukan Akun")
-    //         }else{
-    //           this.setState({isLoading:false})
-    //           this.props.navigation.navigate('Home')
-    //         }
-    //       })
-    //     .catch(err =>{
-    //       console.log('erordi auth sign in:',err)
-    //       this.setState({isLoading:false})
-    //       Alert.alert(
-    //         'Tidak Dapat Menemukan Akun',
-    //         `Kelihatanya ${this.state.inputEmail} tidak cocok dengan akun yang ada. Jika Anda belum memiliki akun Chat, Anda dapat membuatnya sekarang. `,
-    //         [
-    //           {
-    //             text: 'BUAT AKUN',
-    //             onPress: () => this.props.navigation.navigate('Register'),
-    //             style: "default",
-    //           },
-    //           {text: 'COBA LAGI',  onPress:this.handleLogin},
-    //         ],
-           
-    //       );
-    //     })}
-    // }
     handleLogin = async () => {
       if( this.state.inputEmail=="" || this.state.inputPassword=="") {
         alert("Lengkapi Form Terlebih dahulu")  
       }else{ 
         this.setState({isLoading:false})
         loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
-        console.log(loging)
-        if (loging){
-          this.setState({isLoading:false})
-          this.props.navigation.navigate('Home')
+        if(this.props.crosswords.saveToken!=null){
+          this.props.navigation.navigate('AuthLoadingScreen')
+        }else{
+          alert(this.props.crosswords.error)
         }
     }
   }
 
 render(){
-  console.log(this.props)
   return(
     (this.props.crosswords.isLoading==true) 
     ? 

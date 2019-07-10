@@ -8,7 +8,8 @@ import {
   FlatList,
   Dimensions,
   Alert,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { Body } from "native-base";
 import { Icon } from "react-native-elements";
