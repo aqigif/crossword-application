@@ -20,16 +20,13 @@ import { connect } from 'react-redux';
 class Login extends Component {
     constructor(){
         super()
-      
-                      
         this.state={
             inputEmail:"",
             inputPassword:"",
             icEye: 'visibility-off',
-            showPassword: true
+            showPassword: true,
+            isLoading:false
         }
-       
-      
     }
     changePwdType = () => {
       let newState;
@@ -59,48 +56,12 @@ class Login extends Component {
   };
 
   
-    // handleLogin =  () => {
-    //   if( this.state.inputEmail=="" || this.state.inputPassword=="") {
-    //     alert("Lengkapi Form Terlebih dahulu")  
-    //   }else{ 
-    //     this.setState({isLoading:true})
-    //     axios.post(`http://${configs.ipaddress}:3333/api/auth/login`,{
-    //       "email" : this.state.inputEmail,
-    //       "password" : this.state.inputPassword
-    //     })
-    //       .then (res => {
-    //         console.log(res.data.token)
-    //         AsyncStorage.setItem('token', res.data.token);
-    //         if (res.data.token == null){
-    //           alert("Tidak Dapat Menemukan Akun")
-    //         }else{
-    //           this.setState({isLoading:false})
-    //           this.props.navigation.navigate('Home')
-    //         }
-    //       })
-    //     .catch(err =>{
-    //       console.log('erordi auth sign in:',err)
-    //       this.setState({isLoading:false})
-    //       Alert.alert(
-    //         'Tidak Dapat Menemukan Akun',
-    //         `Kelihatanya ${this.state.inputEmail} tidak cocok dengan akun yang ada. Jika Anda belum memiliki akun Chat, Anda dapat membuatnya sekarang. `,
-    //         [
-    //           {
-    //             text: 'BUAT AKUN',
-    //             onPress: () => this.props.navigation.navigate('Register'),
-    //             style: "default",
-    //           },
-    //           {text: 'COBA LAGI',  onPress:this.handleLogin},
-    //         ],
-           
-    //       );
-    //     })}
-    // }
+
     handleLogin = async () => {
       if( this.state.inputEmail=="" || this.state.inputPassword=="") {
         alert("Lengkapi Form Terlebih dahulu")  
       }else{ 
-        this.setState({isLoading:false})
+        this.setState({isLoading:true})
         loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
         console.log(loging)
         if (loging){
@@ -111,9 +72,8 @@ class Login extends Component {
   }
 
 render(){
-  console.log(this.props)
   return(
-    (this.props.crosswords.isLoading==true) 
+    (this.state.isLoading===true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
@@ -177,7 +137,7 @@ render(){
     </TouchableOpacity>
     
 </View>
-  <View style={{justifyContent:'center',alignItems: 'center',position:"absolute",bottom:20}}>
+  <View style={{justifyContent:'center',alignItems: 'center'}}>
       <Text>Belum Mempunyai Akun ?</Text>
     <TouchableOpacity>
       <Text 
