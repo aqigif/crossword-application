@@ -55,18 +55,16 @@ class Login extends Component {
       this.props.callback(password)
   };
 
-  
-
     handleLogin = async () => {
       if( this.state.inputEmail=="" || this.state.inputPassword=="") {
         alert("Lengkapi Form Terlebih dahulu")  
       }else{ 
         this.setState({isLoading:true})
         loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
-        console.log(loging)
-        if (loging){
-          this.setState({isLoading:false})
-          this.props.navigation.navigate('Home')
+        if(this.props.crosswords.saveToken!=null){
+          this.props.navigation.navigate('AuthLoadingScreen')
+        }else{
+          alert(this.props.crosswords.error)
         }
     }
   }

@@ -15,8 +15,8 @@ export const login = (value) => ({
     }
   })
   .catch(err=>{
-    alert('Akun tidak ditemukan')
-})
+    alert('Username atau Password Salah')
+  })
 })
 export const register = (value) => ({
   type: types.REGISTER,
