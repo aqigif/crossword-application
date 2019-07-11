@@ -8,7 +8,8 @@ TouchableOpacity,
 AsyncStorage,
 Alert,
 StatusBar,
-ScrollView
+ScrollView,
+Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {withNavigation} from 'react-navigation';
@@ -81,6 +82,7 @@ class Register extends Component {
   }
 
 render(){
+  const { navigate } = this.props.navigation;
   return(
     (this.state.isLoading==true) 
     ? 
@@ -92,6 +94,7 @@ render(){
   <View style={styles.container}>
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
   <View style={styles.wrapperForm} >
+  <Image source={require('../../assets/img/logo.png')} style={{resizeMode:"contain",width:80,height:80}} />
     <Text style={styles.title}>REGISTER NEW ACCOUNT</Text>
     <View style={styles.inputBox} >
     <TextInput 
@@ -161,6 +164,12 @@ render(){
       style={styles.button}
       onPress={this.handleRegister}>
       <Text style={styles.buttonText}>DAFTAR</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity 
+      
+      onPress={()=>navigate('Login')}>
+      <Text style={{fontWeight:"bold",color:"#517da2"}}>Kembali Ke Login</Text>
     </TouchableOpacity>
 
 
