@@ -14,9 +14,6 @@ export const login = (value) => ({
       password: value.password
     }
   })
-  .catch(err=>{
-    alert('Username atau Password Salah')
-  })
 })
 export const register = (value) => ({
   type: types.REGISTER,

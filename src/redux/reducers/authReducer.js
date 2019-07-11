@@ -3,8 +3,9 @@ import {AsyncStorage} from 'react-native';
 const initialState = {
   data: [],
   error: null,
+  field: null,
   isLoading: false,
-  saveToken: ""
+  saveToken: null
 }
 
 function auth(state = initialState, action) {
@@ -12,10 +13,14 @@ function auth(state = initialState, action) {
     case types.LOGIN:
       return {
         ...state,
+        isLoading: false,
+      };
+    case "LOGIN_PENDING":
+      return {
+        ...state,
         isLoading: true,
       };
     case "LOGIN_FULFILLED":
-        console.log(action.payload)
       return {
         ...state,
         isLoading: false,
@@ -26,7 +31,8 @@ function auth(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        error: action.payload.message
+        field: action.payload.response.data[0].field,
+        error: action.payload.response.data[0].message
       };
     case types.REGISTER:
       return {
@@ -40,7 +46,6 @@ function auth(state = initialState, action) {
         data: action.payload.data
       };
     case "REGISTER_REJECTED":
-      alert(action.payload.message)
       return {
         ...state,
         isLoading: false,

@@ -11,6 +11,7 @@ StatusBar,
 ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {withNavigation} from 'react-navigation';
 
 import { Spinner } from 'native-base';
 import configs from '../../../config';
@@ -183,10 +184,10 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Register);
+)(Register));
 
 const styles = StyleSheet.create({
 container : {

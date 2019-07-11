@@ -59,24 +59,17 @@ class Login extends Component {
       if( this.state.inputEmail=="" || this.state.inputPassword=="") {
         alert("Lengkapi Form Terlebih dahulu")  
       }else{ 
-        this.setState({isLoading:true})
-        loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
-        console.log('ini loging',loging);
-        if(loging){
-          this.setState({isLoading:false})
+        await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
+        if(this.props.auth.saveToken!=null){
           this.props.navigation.navigate('Home')
-        }else {
-          this.setState({isLoading:false})
-          alert(this.props.crosswords.error)
-        }
+        }  
     }
   }
 
 render(){
-  console.log(this.props);
-  
+  const field = this.props.auth.field
   return(
-    (this.state.isLoading===true) 
+    (this.props.auth.isLoading===true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
@@ -106,6 +99,8 @@ render(){
         color="rgba(0,0,0,0.5)"
     />
     </View>
+    {field=="email"?
+    (<Text style={{color:'red'}}>Your email wasn't registered, let's sign up!</Text>):(<View/>)}
     <View style={[styles.wrapperInputPassword, styles.inputBox]} >
     <TextInput
         value={this.state.inputPassword}
@@ -132,6 +127,8 @@ render(){
         onPress={this.changePwdType}
     />
     </View>
+    {field=="password"?
+    (<Text style={{color:'red'}}>Your password was wrong!</Text>):(<View/>)}
 
     <TouchableOpacity 
       style={styles.button}
@@ -155,7 +152,7 @@ render(){
 
 const mapStateToProps = state => {
   return {
-    crosswords: state.crosswords
+    auth: state.auth
   }
 }
 
