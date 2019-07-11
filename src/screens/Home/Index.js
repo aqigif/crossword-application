@@ -27,7 +27,6 @@ class HomeScreen extends Component {
       ]
     };
   }
-
   clickEventListener = item => {
     Alert.alert("Message", "Item clicked. " + item.name);
   };
