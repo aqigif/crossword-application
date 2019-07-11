@@ -34,6 +34,7 @@ class HomeScreen extends Component {
       ]
     };
   }
+<<<<<<< HEAD
 
   
   handleLogout = () =>{
@@ -64,6 +65,8 @@ class HomeScreen extends Component {
   };
 
 
+=======
+>>>>>>> Crossword-Board
   clickEventListener = item => {
     Alert.alert("Message", "Item clicked. " + item.name);
   };
