@@ -11,10 +11,40 @@ import {
   ScrollView,
   AsyncStorage
 } from "react-native";
-import { Body } from "native-base";
+import { Right,Left,Header } from "native-base";
 import { Icon } from "react-native-elements";
+import { Menu, MenuOption , MenuOptions , MenuTrigger } from 'react-native-popup-menu';
+
+class HeaderToolbar extends Component{
+  render(){
+    return(
+        <Header style={{backgroundColor:'white'}} androidStatusBarColor='black'>
+          <Left>
+            <Text style={{fontSize: 20,fontWeight:'bold',width:190}}>
+              CrossWord
+            </Text>
+          </Left>
+          <Right>
+            <Menu onSelect={value => alert(`Selected number: ${value}`)}>
+              <MenuTrigger><Icon name="more-vert" /></MenuTrigger>
+              <MenuOptions>
+                <MenuOption value={1} text='Setting' style={{padding:11}} />
+                <MenuOption value={2} text='Logout'  style={{padding:11}} />
+              </MenuOptions>
+            </Menu>
+          </Right>
+        </Header>
+    )
+  }
+}
 
 class HomeScreen extends Component {
+
+  static navigationOptions = {
+    title: "Select Level",
+    header: <HeaderToolbar/>
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +53,10 @@ class HomeScreen extends Component {
       data: [
         {id: 1,name: "Dunia Hewan",is_finished:0},
         {id: 2,name: "Dunia Makanan",is_finished:1},
-        {id: 2,name: "Dunia Manji",is_finished:1},
+        {id: 3,name: "Dunia Manji",is_finished:1},
+        {id: 4,name: "Dunia Manji",is_finished:1},
+        {id: 5,name: "Dunia Manji",is_finished:1},
+        {id: 6,name: "Dunia Manji",is_finished:1},
       ]
     };
   }
@@ -35,6 +68,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+      <ScrollView>
         <FlatList
           style={styles.contentList}
           columnWrapperStyle={styles.listContainer}
@@ -57,6 +91,7 @@ class HomeScreen extends Component {
             );
           }}
         />
+        </ScrollView>
       </View>
     );
   }
