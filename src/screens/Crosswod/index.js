@@ -9,7 +9,8 @@
 import React, {Component} from 'react'
 import {View, 
       FlatList, 
-      StyleSheet} from 'react-native'
+      StyleSheet,
+      ScrollView} from 'react-native'
 import { Input, 
         Button,
         Text, 
@@ -137,7 +138,8 @@ export default class App extends Component {
     
     console.log("data")
      return (
-      <View style={styles.container}>
+       <View style={styles.container}>
+      <ScrollView>
         <View style={styles.viewCrossWord}>
           <FlatList
             data = {data}
@@ -179,6 +181,7 @@ export default class App extends Component {
           </View>
         </View>
         </View>
+      </ScrollView>
         <Button onPress={()=>this.handleSubmit(letters)}><Text>Submit</Text></Button>
       </View>
     )
@@ -204,8 +207,9 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   activeInput:{
+   
     borderWidth:0.6,
-    borderRadius:5,
+    borderRadius:0,
     borderColor:'black',
     textAlign:'center',
   },

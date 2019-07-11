@@ -6,7 +6,7 @@ const initialState = {
   isLoading: false,
 }
 
-function home(state = initialState, action) {
+function menu(state = initialState, action) {
   switch (action.type) {
     case types.GETMENU:
       return {
@@ -31,4 +31,4 @@ function home(state = initialState, action) {
   }
 }
 
-export default home
+export default menu
