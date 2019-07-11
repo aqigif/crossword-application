@@ -14,37 +14,11 @@ import {
 import { Right,Left,Header } from "native-base";
 import { Icon } from "react-native-elements";
 import { Menu, MenuOption , MenuOptions , MenuTrigger } from 'react-native-popup-menu';
+import {withNavigation} from 'react-navigation';
 
-class HeaderToolbar extends Component{
-  render(){
-    return(
-        <Header style={{backgroundColor:'white'}} androidStatusBarColor='black'>
-          <Left>
-            <Text style={{fontSize: 20,fontWeight:'bold',width:190}}>
-              CrossWord
-            </Text>
-          </Left>
-          <Right>
-            <Menu onSelect={value => alert(`Selected number: ${value}`)}>
-              <MenuTrigger><Icon name="more-vert" /></MenuTrigger>
-              <MenuOptions>
-                <MenuOption value={1} text='Setting' style={{padding:11}} />
-                <MenuOption value={2} text='Logout'  style={{padding:11}} />
-              </MenuOptions>
-            </Menu>
-          </Right>
-        </Header>
-    )
-  }
-}
 
 class HomeScreen extends Component {
-
-  static navigationOptions = {
-    title: "Select Level",
-    header: <HeaderToolbar/>
-  };
-
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -61,11 +35,41 @@ class HomeScreen extends Component {
     };
   }
 
+  
+  handleLogout = () =>{
+    AsyncStorage.clear()
+    this.props.navigation.navigate('Login')
+    alert('Berhasil Logout')
+  }
+  static navigationOptions = {
+    title: "Select Level",
+    header: (
+      <Header style={{backgroundColor:'white'}} androidStatusBarColor='black'>
+        <Left>
+          <Text style={{fontSize: 20,fontWeight:'bold',width:190}}>
+            CrossWord
+          </Text>
+        </Left>
+        <Right>
+          <Menu >
+            <MenuTrigger ><Icon name="more-vert" /></MenuTrigger>
+            <MenuOptions >
+              <MenuOption value={1} text='Setting' style={{padding:11}} />
+              <MenuOption onSelect={this.handleLogout} text='Logout'  style={{padding:11}} />
+            </MenuOptions>
+          </Menu>
+        </Right>
+      </Header>
+  )
+  };
+
+
   clickEventListener = item => {
     Alert.alert("Message", "Item clicked. " + item.name);
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
       <ScrollView>
@@ -97,7 +101,7 @@ class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen
+export default withNavigation(HomeScreen)
 
 const styles = StyleSheet.create({
   container: {
