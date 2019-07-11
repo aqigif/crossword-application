@@ -36,13 +36,19 @@ class HomeScreen extends Component {
   }
 
   
-  handleLogout = () =>{
-    AsyncStorage.clear()
-    this.props.navigation.navigate('Login')
-    alert('Berhasil Logout')
-  }
-  static navigationOptions = {
-    title: "Select Level",
+  _handleLogout = async () => {
+    try {
+      const token = await AsyncStorage.removeItem("token");
+      console.log(token);
+      if (token == null) {
+        this.props.navigation.navigate("Login");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  static navigationOptions  =  ({ navigation }) =>   {
+    return {
     header: (
       <Header style={{backgroundColor:'white'}} androidStatusBarColor='black'>
         <Left>
@@ -55,12 +61,25 @@ class HomeScreen extends Component {
             <MenuTrigger ><Icon name="more-vert" /></MenuTrigger>
             <MenuOptions >
               <MenuOption value={1} text='Setting' style={{padding:11}} />
-              <MenuOption onSelect={this.handleLogout} text='Logout'  style={{padding:11}} />
+              <MenuOption onSelect={()=>Alert.alert('Konfirmasi','Apakah anda yakin?'
+                ,[{text: 'Logout', onPress: async () => {
+                  try {
+                    const token = await AsyncStorage.removeItem("token");
+                    if (token == null) {
+                      navigation.navigate("Login");
+                    }
+                  } catch (error) {console.error(error);}
+                }},
+                {text: 'Batal'}
+              ]
+              )} text='Logout'  style={{padding:11}} />
             </MenuOptions>
           </Menu>
         </Right>
       </Header>
+    
   )
+  }
   };
 
 
@@ -84,7 +103,7 @@ class HomeScreen extends Component {
             return (
               <TouchableOpacity
                 style={styles.card}
-                onPress={() => {this.props.navigation.navigate('Crosswod')}}>
+                onPress={() => {this.props.navigation.navigate('Crossword')}}>
                 {item.is_finished==1?
                 (<Icon name="check-circle" color='green' size={40} />):
                 (<View style={styles.circle}></View>)}
@@ -101,7 +120,7 @@ class HomeScreen extends Component {
   }
 }
 
-export default withNavigation(HomeScreen)
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container: {
