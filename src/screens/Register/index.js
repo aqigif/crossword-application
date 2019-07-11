@@ -8,10 +8,11 @@ TouchableOpacity,
 AsyncStorage,
 Alert,
 StatusBar,
-ScrollView
+ScrollView,
+Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { withNavigation } from 'react-navigation'
 import { Spinner } from 'native-base';
 import configs from '../../../config';
 const axios = require('axios');
@@ -80,6 +81,7 @@ class Register extends Component {
   }
 
 render(){
+  const { navigate } = this.props.navigation;
   return(
     (this.state.isLoading==true) 
     ? 
@@ -91,6 +93,7 @@ render(){
   <View style={styles.container}>
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
   <View style={styles.wrapperForm} >
+  <Image source={require('../../assets/img/logo.png')} style={{resizeMode:"contain",width:80,height:80}} />
     <Text style={styles.title}>REGISTER NEW ACCOUNT</Text>
     <View style={styles.inputBox} >
     <TextInput 
@@ -162,6 +165,12 @@ render(){
       <Text style={styles.buttonText}>DAFTAR</Text>
     </TouchableOpacity>
 
+    <TouchableOpacity 
+      
+      onPress={()=>navigate('Login')}>
+      <Text style={{fontWeight:"bold",color:"#517da2"}}>Kembali Ke Login</Text>
+    </TouchableOpacity>
+
 
 
 </View>
@@ -183,10 +192,10 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
+export default withNavigation(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Register);
+)(Register));
 
 const styles = StyleSheet.create({
 container : {

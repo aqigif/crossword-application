@@ -7,7 +7,8 @@ TextInput,
 TouchableOpacity,
 AsyncStorage,
 Alert,
-StatusBar
+StatusBar,
+Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -25,6 +26,7 @@ class Login extends Component {
             inputPassword:"",
             icEye: 'visibility-off',
             showPassword: true,
+            showLogo:true,
             isLoading:false
         }
     }
@@ -79,6 +81,7 @@ render(){
     (this.state.isLoading===true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
+<StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
       <Text>Loading . . .</Text>
     </View>
@@ -86,7 +89,9 @@ render(){
   <View style={styles.container}>
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
   <View style={styles.wrapperForm} >
-    <Text style={styles.title}>CROSSWORD GAME</Text>
+  {(this.state.showLogo===true) ? 
+    <Image source={require('../../assets/img/logo.png')} style={{resizeMode:"contain",width:80,height:80}} /> : null}
+     <Text style={styles.title}>CROSSWORD GAME</Text>
     <View style={styles.inputBox} >
     <TextInput 
         value={this.state.inputEmail}
