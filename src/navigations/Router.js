@@ -20,6 +20,9 @@ const AppStack = createStackNavigator({
   Crosswod:{ 
     screen: CrosswodScreen,
   }
+},
+{
+  initialRouteName: "Home"
 });
 
 const AuthStack = createStackNavigator(

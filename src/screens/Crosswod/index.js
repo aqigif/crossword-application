@@ -1,230 +1,142 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
 
-import React, {Component} from 'react'
-import {View, 
-      FlatList, 
-      StyleSheet} from 'react-native'
-import { Input, 
-        Button,
-        Text, 
-        Item} from 'native-base'
-import axios from 'axios'
+import React, { Component } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Keyboard,
+  FlatList,
+  TextInput
+} from "react-native";
 
+import { Container, Input, Content } from "native-base";
+import axios from "axios";
 
-export default class App extends Component {
-  constructor(){
-    super()
-    this.state= {
-      answers:[],
-      indexes:[],
-      userAnswer:[],
-    }
-  }  
-  componentWillMount(){
-    this.fetchAllAnswers()
+class Board extends Component {
+  constructor() {
+    super();
+    this.state = {
+      answer: [
+        {
+          id: 1,
+          crossword_id: 1,
+          number: 1,
+          question: "siapakah sa",
+          answer: "kadala",
+          is_clue: true,
+          indexes: "0,1,2,3,4,5"
+        },
+        {
+          id: 2,
+          crossword_id: 1,
+          number: 2,
+          question: " suka ?",
+          answer: "ayama",
+          is_clue: false,
+          indexes: "1,6,11,16"
+        },
+        {
+          id: 3,
+          crossword_id: 1,
+          number: 3,
+          question: "wis?",
+          answer: "oraaa",
+          is_clue: false,
+          indexes: "21,22,23,24"
+        }
+      ]
+    };
   }
-  async fetchAllAnswers(){
-    const rest = await axios.get(`http://192.168.0.23:3333/api/answers`)
-    .then(res => {
-      this.setState({answers: res.data.data})})
-    .catch(err => console.log(err))
-    
-    console.log(this.state.answers)
-    // let a=[1,2,3,4]
-    // let b=[5,6,7]
-    // let c=a.push(...b)
-    // console.log(a)
-    
-    // for(let i=0; i < this.state.answers.length; i++){
-    //   this.state.indexes.push(...this.state.answers[i].indexes.split(',').map(function(item){
-    //     return parseInt(item,10)
-    //   }))
-    // }
-    // this.setState({ myArray: [...this.state.myArray, ...[1,2,3] ] })    
-    
-    
-    // console.log(this.state.answers[0].indexes.split(',').map(function(item){
-    //       return parseInt(item,10)}))
-    
+  generateArray() {
+    let answer = [];
+    let index = [];
+    this.state.answer.map(data => {
+      data.indexes.split(",").map((item, key) => {
+        answer.push({ index: item, value: data.answer.substr(key, 1) });
+        index.push(parseInt(item));
+      });
+    });
+
+    return index;
   }
-  
+
   render() {
-    
-    const list = [1,2,3,4,8,9,10,11,12,13,14,15,16,17,18,21,22,23,25,26,27,32,33,34,35]
-    // console.log("index di render")
-    // console.log(this.state.answers)
-    
-    var indexes = []
-    var letters = []
-    var i =-1
-    for(let a =0; a < this.state.answers.length; a++){
-      let index = this.state.answers[a].indexes.split(',').map(function(item){
-                  return parseInt(item,10)})
-      let letter = this.state.answers[a].answer.split('')
+    const data = this.generateArray();
+    let tts = [];
 
-      for(let b = 0; b < index.length; b++){
-        indexes.push(
-          index[b]
-        )
-        letters.push(
-          letter[b]
-        )
-      }
+    for (let i = 0; i < 36; i++) {
+      tts.push({ index: i, value: "index ke-" + i });
     }
-    var results =[]
-    var i =-1
-    for(let a =0; a < this.state.answers.length; a++){
-      let index = this.state.answers[a].indexes.split(',').map(function(item){
-                  return parseInt(item,10)})
-      let letter = this.state.answers[a].answer.split('')
-
-      for(let b = 0; b < index.length; b++){
-        results.push({
-          letter: letter[b],
-          index: index[b]
-        })
-      }
-    }
-    console.log("results")
-    // console.log(indexes)
-    // console.log(letters)
-    console.log(results)
-    const data = Array.from({length:36}, (x,i) =>{
-      return {key:i}
-    })
-    const dataArray = Array(36)
-    for(let i = 0; i < 36; i++){
-      dataArray[i] = i
-    }
-    console.log("data")
-    // console.log(data)
-     return (
+    return (
       <View style={styles.container}>
-        <View style={styles.viewCrossWord}>
+        <View style={styles.crosswordBoxWrapper}>
           <FlatList
-            data = {data}
-            numColumns={Math.sqrt(36)}
-            renderItem={({item, index}) =>{
-              
-              if(indexes.includes(dataArray[index])){
-                i+=1 
-                return(
-                  <Input  style={styles.activeInput}
-                        maxLength={1}
-                        lowercase={false}
-                        autoCapitalize='characters'
-                        // placeholder={results.filter(result => result.index === item.key).map(result => result.letter).toString()}
-                        placeholder={dataArray[index].toString()}
-                        key={dataArray[index].toString()}/>
-                )
-              }else{
-                
-                return(
-                  <Input disabled style={styles.inactiveInput}/>
-                )
-              }
-              // if(results.some(result => result.index == item.key)){
-              //   i+=1
-              //   return(
-              //     <Input style={styles.activeInput}
-              //           maxLength={1}
-              //           lowercase={false}
-              //           autoCapitalize='characters'
-              //           placeholder={results.filter(item => item.index === item.key).map(item => item.letter).toString()}
-              //           // key={letters[item.key]}/>
-              //           />
-                  
-                  
-              //   )
-              // }else{
-              //   return(
-              //     <Input disabled style={styles.inactiveInput}/>
-              //   )
-              // }
-            }} 
+            data={tts}
+            numColumns={6}
+            renderItem={({ item }) => (
+              <View>
+                {data.includes(item.index) ? (
+                  <View style={styles.crosswordBox}>
+                    <Text style={{ position: "absolute", left: 5, top: 0 }}>
+                      {item.number}
+                    </Text>
+                    <TextInput maxLength={1} style={styles.inputCrossword} />
+                  </View>
+                ) : (
+                  <View style={styles.crosswordBoxBlack} />
+                )}
+              </View>
+            )}
           />
-          <View style={styles.viewQuestion}>
-          <View style={styles.viewQuestionType}>
-            <Text style={styles.titleQuestionType}>Mendatar</Text>
-              {
-                this.state.answers.map((item, index) => (
-                  item.type === "mendatar" ? <Text key={index}>{item.question}</Text> : null
-          
-                ))
-              }
-          </View>
-          <View style={styles.viewQuestionType}> 
-            <Text style={styles.titleQuestionType}>Menurun</Text>
-            {
-              this.state.answers.map((item, index) => (
-                item.type === "menurun" ? <Text key={index}>{item.question}</Text> : null
-        
-              ))
-            }
-          </View>
         </View>
+
+        <View
+          style={{
+            flex: 1,
+            height: 40,
+            backgroundColor: "#00142B",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Text style={{ textAlign: "center", color: "#f4f6f6" }}>
+            {this.state.question}
+          </Text>
         </View>
-        <Button><Text>Submit</Text></Button>
-        {/* <View style={styles.viewQuestion}>
-          <View style={styles.viewQuestionType}>
-            <Text style={styles.titleQuestionType}>Mendatar</Text>
-              {
-                this.state.answers.map((item, index) => (
-                  item.type === "mendatar" ? <Text key={index}>{item.question}</Text> : null
-          
-                ))
-              }
-          </View>
-          <View style={styles.viewQuestionType}> 
-            <Text style={styles.titleQuestionType}>Menurun</Text>
-            {
-              this.state.answers.map((item, index) => (
-                item.type === "menurun" ? <Text key={index}>{item.question}</Text> : null
-        
-              ))
-            }
-          </View>
-        </View> */}
-        
       </View>
-    )
+    );
   }
 }
+
+export default Board;
+
 const styles = StyleSheet.create({
-  container:{
-    flex:1
+  container: {
+    paddingVertical: 20,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    backgroundColor: "#000"
   },
-  viewCrossWord:{
-    flex:2,
+  crosswordBoxWrapper: {
+    marginHorizontal: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    backgroundColor: "#000"
   },
-  viewQuestion:{
-    flexDirection:'row',
-    flex:2,
-    justifyContent:'center'
-
+  inputCrossword: { height: "100%", width: "100%", textAlign: "center" },
+  crosswordBox: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    margin: 1,
+    width: 62,
+    height: 62
   },
-  viewQuestionType:{
-    margin: 10,
-  },
-  titleQuestionType:{
-    fontWeight:'bold'
-  },
-  activeInput:{
-    borderWidth:0.6,
-    borderRadius:5,
-    borderColor:'black',
-    textAlign:'center',
-  },
-  inactiveInput:{
-    backgroundColor:'black',
+  crosswordBoxBlack: {
+    backgroundColor: "#000",
+    borderRadius: 10,
+    margin: 1,
+    width: 62,
+    height: 62
   }
-})
-
-
-
+});
