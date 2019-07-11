@@ -1,4 +1,18 @@
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  Alert,
+  ScrollView,
+  AsyncStorage
+} from "react-native";
 import { Icon } from "react-native-elements";
+import { Right,Left,Header } from "native-base";
 import { Menu, MenuOption , MenuOptions , MenuTrigger } from 'react-native-popup-menu';
 import {withNavigation} from 'react-navigation';
 const axios = require('axios');
@@ -99,7 +113,7 @@ class HomeScreen extends Component {
             return (
               <TouchableOpacity
                 style={styles.card}
-                onPress={() => {this.props.navigation.navigate('Crosswod',{
+                onPress={() => {this.props.navigation.navigate('Crossword',{
                             crosswordId:item.pivot.id,
                         })}}>
                 {item.pivot.is_finished==1?
@@ -135,5 +149,54 @@ export default withNavigation(connect(
   mapDispatchToProps
 )(HomeScreen))
 
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: "#ebf0f7"
+  },
+  contentList: {
+    flex: 1,
+  },
+  cardContent: {
+    marginLeft: 20,
+    marginTop:5
+  },
+  circle: {
+    borderWidth: 2,
+    width:36,
+    height:36,
+    borderRadius:36/2
+  },
+
+  card: {
+    shadowColor: "#00000021",
+    shadowOffset: {
+      width: 0,
+      height: 6
+    },
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+
+    margin: 10,
+    backgroundColor: "white",
+    padding: 10,
+    flexDirection: "row",
+    borderRadius: 30
+  },
+
+  name: {
+    fontSize: 18,
+    flex: 1,
+    alignSelf: "center",
+    color: "#000",
+    fontWeight: "bold"
+  },
+  count: {
+    fontSize: 14,
+    flex: 1,
+    alignSelf: "center",
+    color: "#6666ff"
+  },
+});

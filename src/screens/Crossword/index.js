@@ -16,7 +16,7 @@ import { Input,
         Text, 
         Item} from 'native-base'
 import axios from 'axios'
-
+import configs from '../../../config'
 
 export default class App extends Component {
   
@@ -26,15 +26,21 @@ export default class App extends Component {
     this.state= {
       answers:[],
       indexes:[], 
+      crosswordId:""
     }
     
     
   }  
-  componentWillMount(){
+async  componentWillMount(){
+    const { navigation } = this.props;
+    const crosswordId = await navigation.getParam('crosswordId');
+    this.setState({crosswordId:crosswordId})
+    console.log(this.state.crosswordId);
+    
     this.fetchAllAnswers()
   }
   async fetchAllAnswers(){
-    const rest = await axios.get(`http://192.168.0.18:3333/api/answers/1`)
+    const rest = await axios.get(`http://${configs.BASE_URL}:3333/api/answers/${this.state.crosswordId}`)
     .then(res => {
       this.setState({answers: res.data.data})})
     .catch(err => console.log(err.response))
