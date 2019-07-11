@@ -4,6 +4,7 @@ import { createReduxContainer } from 'react-navigation-redux-helpers';
 
 import RootNavigation from './src/navigations/Router';
 import { store } from './src/redux/store';
+import { MenuProvider } from 'react-native-popup-menu';
 
 const AppNav = createReduxContainer(RootNavigation, 'root');
 
@@ -16,9 +17,11 @@ const AppWithNavigationState = connect(mapStateToProps)(AppNav);
 export default class App extends Component {
   render() {
     return (
+      <MenuProvider>
       <Provider store={store}>
         <AppWithNavigationState />
       </Provider>
+      </MenuProvider>
     );
   }
 }

@@ -7,7 +7,8 @@ TextInput,
 TouchableOpacity,
 AsyncStorage,
 Alert,
-StatusBar
+StatusBar,
+Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -20,16 +21,14 @@ import { connect } from 'react-redux';
 class Login extends Component {
     constructor(){
         super()
-      
-                      
         this.state={
             inputEmail:"",
             inputPassword:"",
             icEye: 'visibility-off',
-            showPassword: true
+            showPassword: true,
+            showLogo:true,
+            isLoading:false
         }
-       
-      
     }
     changePwdType = () => {
       let newState;
@@ -58,64 +57,24 @@ class Login extends Component {
       this.props.callback(password)
   };
 
-  
-    // handleLogin =  () => {
-    //   if( this.state.inputEmail=="" || this.state.inputPassword=="") {
-    //     alert("Lengkapi Form Terlebih dahulu")  
-    //   }else{ 
-    //     this.setState({isLoading:true})
-    //     axios.post(`http://${configs.ipaddress}:3333/api/auth/login`,{
-    //       "email" : this.state.inputEmail,
-    //       "password" : this.state.inputPassword
-    //     })
-    //       .then (res => {
-    //         console.log(res.data.token)
-    //         AsyncStorage.setItem('token', res.data.token);
-    //         if (res.data.token == null){
-    //           alert("Tidak Dapat Menemukan Akun")
-    //         }else{
-    //           this.setState({isLoading:false})
-    //           this.props.navigation.navigate('Home')
-    //         }
-    //       })
-    //     .catch(err =>{
-    //       console.log('erordi auth sign in:',err)
-    //       this.setState({isLoading:false})
-    //       Alert.alert(
-    //         'Tidak Dapat Menemukan Akun',
-    //         `Kelihatanya ${this.state.inputEmail} tidak cocok dengan akun yang ada. Jika Anda belum memiliki akun Chat, Anda dapat membuatnya sekarang. `,
-    //         [
-    //           {
-    //             text: 'BUAT AKUN',
-    //             onPress: () => this.props.navigation.navigate('Register'),
-    //             style: "default",
-    //           },
-    //           {text: 'COBA LAGI',  onPress:this.handleLogin},
-    //         ],
-           
-    //       );
-    //     })}
-    // }
     handleLogin = async () => {
       if( this.state.inputEmail=="" || this.state.inputPassword=="") {
         alert("Lengkapi Form Terlebih dahulu")  
       }else{ 
-        this.setState({isLoading:false})
-        loging = await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
-        console.log(loging)
-        if (loging){
-          this.setState({isLoading:false})
+        await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
+        if(this.props.auth.saveToken!=null){
           this.props.navigation.navigate('Home')
-        }
+        }  
     }
   }
 
 render(){
-  console.log(this.props)
+  const field = this.props.auth.field
   return(
-    (this.props.crosswords.isLoading==true) 
+    (this.props.auth.isLoading===true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
+<StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
       <Text>Loading . . .</Text>
     </View>
@@ -123,7 +82,9 @@ render(){
   <View style={styles.container}>
 <StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
   <View style={styles.wrapperForm} >
-    <Text style={styles.title}>CROSSWORD GAME</Text>
+  {(this.state.showLogo===true) ? 
+    <Image source={require('../../assets/img/logo.png')} style={{resizeMode:"contain",width:80,height:80}} /> : null}
+     <Text style={styles.title}>CROSSWORD GAME</Text>
     <View style={styles.inputBox} >
     <TextInput 
         value={this.state.inputEmail}
@@ -143,6 +104,8 @@ render(){
         color="rgba(0,0,0,0.5)"
     />
     </View>
+    {field=="email"?
+    (<Text style={{color:'red'}}>Your email wasn't registered, let's sign up!</Text>):(<View/>)}
     <View style={[styles.wrapperInputPassword, styles.inputBox]} >
     <TextInput
         value={this.state.inputPassword}
@@ -169,6 +132,8 @@ render(){
         onPress={this.changePwdType}
     />
     </View>
+    {field=="password"?
+    (<Text style={{color:'red'}}>Your password was wrong!</Text>):(<View/>)}
 
     <TouchableOpacity 
       style={styles.button}
@@ -177,7 +142,7 @@ render(){
     </TouchableOpacity>
     
 </View>
-  <View style={{justifyContent:'center',alignItems: 'center',position:"absolute",bottom:20}}>
+  <View style={{justifyContent:'center',alignItems: 'center'}}>
       <Text>Belum Mempunyai Akun ?</Text>
     <TouchableOpacity>
       <Text 
@@ -192,7 +157,7 @@ render(){
 
 const mapStateToProps = state => {
   return {
-    crosswords: state.crosswords
+    auth: state.auth
   }
 }
 

@@ -1,41 +1,58 @@
-import { createSwitchNavigator, createStackNavigator, createAppContainer ,createMaterialTopTabNavigator} from 'react-navigation';
+import {
+  createSwitchNavigator,
+  createStackNavigator,
+  createAppContainer,
+  createMaterialTopTabNavigator
+} from "react-navigation";
 
-import LoadingScreen from "../screens/Loading/Loading"
-import LoginScreen from "../screens/Login/index"
-import RegisterScreen from "../screens/Register/index"
-import HomeScreen from "../screens/Home/index"
-import CrosswodScreen from "../screens/Crosswod/index"
+import LoadingScreen from "../screens/Loading/Loading";
+import LoginScreen from "../screens/Login/index";
+import RegisterScreen from "../screens/Register/index";
+import HomeScreen from "../screens/Home/index";
+import CrosswordScreen from "../screens/Crossword/index";
 
 
 
 const AppStack = createStackNavigator({ 
-  Home: HomeScreen, 
-  Crosswod: CrosswodScreen, 
-},{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
-const AuthStack = createStackNavigator({ Login: LoginScreen, Register:RegisterScreen },{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
-const AuthLoadingScreen = createStackNavigator({Loading:LoadingScreen },{
-  headerMode: 'none',
-  navigationOptions: {
-  headerVisible: false,
-},});
+  Home: {
+    screen:HomeScreen,
+  }, 
+  Crossword:{ 
+    screen: CrosswordScreen,
+  }
+});
 
-
-
-export default createAppContainer(createSwitchNavigator(
+const AuthStack = createStackNavigator(
   {
-    AuthLoading: AuthLoadingScreen,
-    App: AppStack,
-    Auth: AuthStack,
+    Register: RegisterScreen,
+    Login: LoginScreen,
   },
   {
-    initialRouteName: 'AuthLoading',
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
   }
-));
+);
+const AuthLoadingScreen = createStackNavigator(
+  { Loading: LoadingScreen },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
+
+
+  const CrosswordRoute = createSwitchNavigator(
+    {
+      AuthLoading: AuthLoadingScreen,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "AuthLoading"
+    }
+  )
+  export default createAppContainer(CrosswordRoute);
