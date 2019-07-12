@@ -85,7 +85,10 @@ class HomeScreen extends Component {
           <Menu >
             <MenuTrigger ><Icon name="more-vert" /></MenuTrigger>
             <MenuOptions >
-              <MenuOption value={1} text='Setting' style={{padding:11}} />
+              <MenuOption 
+              onSelect={()=>navigation.navigate("Profile")}
+               text='Profile' style={{padding:11}} />
+              <MenuOption text='Setting' style={{padding:11}} />
               <MenuOption onSelect={()=>Alert.alert('Konfirmasi','Apakah anda yakin?'
                 ,[{text: 'Logout', onPress: async () => {
                   try {
