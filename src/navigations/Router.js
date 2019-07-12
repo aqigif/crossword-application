@@ -10,6 +10,7 @@ import LoginScreen from "../screens/Login/index";
 import RegisterScreen from "../screens/Register/index";
 import HomeScreen from "../screens/Home/index";
 import CrosswordScreen from "../screens/Crossword/index";
+import ProfileScreen from "../screens/Profile/index";
 
 
 
@@ -17,15 +18,18 @@ const AppStack = createStackNavigator({
   Home: {
     screen:HomeScreen,
   }, 
+  Profile : {
+    screen:ProfileScreen,
+  },
   Crossword:{ 
     screen: CrosswordScreen,
-  }
+  },
 });
 
 const AuthStack = createStackNavigator(
   {
-    Register: RegisterScreen,
     Login: LoginScreen,
+    Register: RegisterScreen,
   },
   {
     headerMode: "none",
@@ -52,7 +56,7 @@ const AuthLoadingScreen = createStackNavigator(
       Auth: AuthStack
     },
     {
-      initialRouteName: "AuthLoading"
+      initialRouteName: "Auth"
     }
   )
   export default createAppContainer(CrosswordRoute);

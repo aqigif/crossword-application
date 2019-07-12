@@ -52,7 +52,7 @@ class ProfileScreen extends Component {
                         styleAttr="Horizontal"
                         style={{width:200,}}
                         indeterminate={false}
-                        progress={0.1}
+                        progress={0.3}
                         />
                     </View>
                     <View style={styles.container}>
@@ -79,7 +79,7 @@ class ProfileScreen extends Component {
                     </View>
                 </View>
                 <View  style={styles.Back}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate("Home")}>
                     <Text style={{fontSize:20,fontWeight:'bold'}}>Back to game</Text>
                     </TouchableOpacity>
                 </View>
@@ -93,10 +93,11 @@ export default ProfileScreen
 
 const styles = StyleSheet.create({
   ImgBackground : {
-      width: '100%',
-      height:200,
-      borderTopLeftRadius: 30,
-      borderTopRightRadius: 30,
+      margin:8,
+      width: '95%',
+      height: 200,
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
   },
   Avatar : {
       alignSelf:'center',
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 100,
-    backgroundColor: 'cyan'
+    backgroundColor: 'white'
   },
   AvatarContainer : {
       top: -100
