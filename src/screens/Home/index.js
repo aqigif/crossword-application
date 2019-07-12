@@ -28,43 +28,11 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu:[],
-      token:'',
-      modalVisible: false,
-      userSelected: [],
-      data: [
-        {id: 1,name: "Dunia Hewan",is_finished:0},
-        {id: 2,name: "Dunia Makanan",is_finished:1},
-        {id: 3,name: "Dunia Manji",is_finished:1},
-        {id: 4,name: "Dunia Manji",is_finished:1},
-        {id: 5,name: "Dunia Manji",is_finished:1},
-        {id: 6,name: "Dunia Manji",is_finished:1},
-      ]
     };
   }
   async componentDidMount(){
-    that = this
     const valueToken= await AsyncStorage.getItem('token')
-    this.setState({
-      token:valueToken
-    })
-    let config = {
-      headers: {
-        'Authorization': 'bearer ' + that.state.token
-      }
-    }
-    axios.get(`http://${configs.BASE_URL}:3333/api/crosswords`,config)
-    .then(function (response) {
-      console.log(response.data)
-      that.setState({
-        menu:response.data
-      })
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-    
+    console.log(this.props.getMenu({token:valueToken}));
 }
 
   handleLogout = () =>{
@@ -115,8 +83,6 @@ class HomeScreen extends Component {
   };
 
   render() {
-    console.log('ini props home',this.props);
-    
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -125,7 +91,7 @@ class HomeScreen extends Component {
         <FlatList
           style={styles.contentList}
           columnWrapperStyle={styles.listContainer}
-          data={this.state.menu}
+          data={this.props.menu.data}
           keyExtractor={(item, index) => (`menu-${index}`)}
           renderItem={({ item }) => {
             return (
@@ -159,7 +125,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    menu: () => dispatch(actionCrosswords.menu())
+    getMenu: (value) => dispatch(actionCrosswords.getMenu(value))
   }
 }
 

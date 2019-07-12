@@ -5,11 +5,8 @@ import config from "../../../config";
 import axios from 'axios';
 
 const token = AsyncStorage.getItem('token')
-
-let header = {
-  headers: {
+let headerConfig = {
     'Authorization': 'bearer ' + token
-  }
 }
 
 export const login = (value) => ({
@@ -35,11 +32,13 @@ export const register = (value) => ({
     }
   })
 });
-export const menu = () => ({
+export const getMenu = (value) => ({
   type: types.GETMENU,
   payload: axios({
     method: "GET",
-    url: `http://${config.BASE_URL}:3333/api/crosswords`,header
+    url: `http://${config.BASE_URL}:3333/api/crosswords`,
+    headers : {
+      'Authorization' : `Bearer ${value.token}`}
   })
 });
 
