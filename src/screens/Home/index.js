@@ -126,7 +126,8 @@ class HomeScreen extends Component {
               <TouchableOpacity
                 style={styles.card}
                 onPress={() => {this.props.navigation.navigate('Crossword',{
-                            crosswordId:item.pivot.id,
+                            crosswordId:item.pivot.crossword_id,
+                            userId: item.pivot.user_id
                         })}}>
                 {item.pivot.is_finished==1?
                 (<Icon name="check-circle" color='green' size={40} />):
