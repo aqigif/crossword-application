@@ -13,6 +13,11 @@ function menu(state = initialState, action) {
         ...state,
         isLoading: true,
       };
+      case "GETMENU_PENDING":
+        return {
+          ...state,
+          isLoading: true,
+        };
     case "GETMENU_FULFILLED":
       return {
         ...state,
