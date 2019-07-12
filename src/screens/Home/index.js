@@ -9,7 +9,8 @@ import {
   Dimensions,
   Alert,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  StatusBar
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { Right,Left,Header } from "native-base";
@@ -19,6 +20,7 @@ const axios = require('axios');
 import configs from '../../../config'
 import * as actionCrosswords from '../../redux/action';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 class HomeScreen extends Component {
@@ -115,6 +117,7 @@ class HomeScreen extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+      <LinearGradient colors={['#f2fcfe','#1c92d2']} style={{flex:1}} >
       <ScrollView>
         <FlatList
           style={styles.contentList}
@@ -139,6 +142,7 @@ class HomeScreen extends Component {
           }}
         />
         </ScrollView>
+        </LinearGradient>
       </View>
     );
   }

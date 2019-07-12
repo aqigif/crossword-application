@@ -17,6 +17,7 @@ import configs from '../../../config'
 
 import * as actionCrosswords from '../../redux/action';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 
 class Login extends Component {
     constructor(){
@@ -74,13 +75,17 @@ render(){
     (this.props.auth.isLoading===true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
-<StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
+<StatusBar  barStyle='dark-content' backgroundColor="#f2fcfe" translucent = {false} />
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
       <Text>Loading . . .</Text>
     </View>
     :
   <View style={styles.container}>
-<StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
+  <LinearGradient colors={['#f2fcfe','#1c92d2']} style={{flex:1,width:"100%",
+  justifyContent:"center",
+  flexDirection:"column",
+  alignItems:"center",}} >
+<StatusBar  barStyle='dark-content' backgroundColor="#f2fcfe" translucent = {false} />
   <View style={styles.wrapperForm} >
   {(this.state.showLogo===true) ? 
     <Image source={require('../../assets/img/logo.png')} style={{resizeMode:"contain",width:80,height:80}} /> : null}
@@ -142,14 +147,15 @@ render(){
     </TouchableOpacity>
     
 </View>
-  <View style={{justifyContent:'center',alignItems: 'center'}}>
-      <Text>Belum Mempunyai Akun ?</Text>
+  <View style={{justifyContent:'center',alignItems: 'center',bottom:-20}}>
+      <Text style={{fontWeight:"bold"}} >Belum Mempunyai Akun ?</Text>
     <TouchableOpacity>
       <Text 
         onPress={()=>this.props.navigation.navigate('Register')}
-        style={{color:"#517da2",fontWeight:"bold"}} >DAFTAR SEKARANG!</Text>
+        style={{color:"#f2fcfe",fontWeight:"bold"}} >DAFTAR SEKARANG!</Text>
     </TouchableOpacity>
 </View>
+</LinearGradient>
 </View>
 
 )}
@@ -174,8 +180,8 @@ export default connect(
 
 const styles = StyleSheet.create({
 container : {
-    backgroundColor: "#fff",
-    flexGrow: 1,
+  
+    flex: 1,
     justifyContent:'center',
     alignItems: 'center'
 },
@@ -194,24 +200,13 @@ inputBox: {
     fontSize:16,
     color:'grey',
     marginVertical: 10,
-    backgroundColor:"#ffff",
-    borderColor: "#1c313a",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
-    elevation: 9,
+    backgroundColor:"rgba(211, 235, 248, 1)",
+    
 },
 wrapperForm:{
   width:"100%",
-  backgroundColor:'rgba(86,130,163,0)',
   flexDirection:"column",
   alignItems:"center",
-  borderRadius:20,
-  padding:10,
   
 },
 wrapperInputPassword:{
