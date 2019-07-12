@@ -26,24 +26,31 @@ export default class App extends Component {
     this.state= {
       answers:[],
       indexes:[], 
-      crosswordId:""
+      crosswordId:"",
+      userId:""
     }
     
     
   }  
-async  componentWillMount(){
+  componentDidMount(){
     const { navigation } = this.props;
-    const crosswordId = await navigation.getParam('crosswordId');
-    this.setState({crosswordId:crosswordId})
-    console.log(this.state.crosswordId);
-    
+    const id = navigation.getParam('userId')
+    const idCrossword = navigation.getParam('crosswordId')
+    this.setState({userId:id, crosswordId:idCrossword})
     this.fetchAllAnswers()
   }
   async fetchAllAnswers(){
-    const rest = await axios.get(`http://${configs.BASE_URL}:3333/api/answers/${this.state.crosswordId}`)
+    const { navigation } = this.props;
+    const crosswordId = navigation.getParam('crosswordId')
+
+    const rest = await axios.get(`http://${configs.BASE_URL}:3333/api/answers/${crosswordId}`)
     .then(res => {
+      console.log(res.data.data)
       this.setState({answers: res.data.data})})
     .catch(err => console.log(err.response))
+    
+    console.log("answers")
+    console.log(this.state.answers)
   }
   handleChangeText(userAnswer, index){
     global.userAnswers[index] = userAnswer
@@ -58,8 +65,11 @@ async  componentWillMount(){
       }
       
     }
-    console.log(global.userAnswers)
-    console.log(letters)
+    
+    // console.log(global.userAnswers)
+    // console.log(letters)
+    // alert(this.state.answers[1].users[0].pivot.id)
+
     if(global.userAnswers.length < letters.length){
       alert("Isi semua soal terlebih dahulu")
     }else{
@@ -70,12 +80,14 @@ async  componentWillMount(){
         alert("Selamat anda lulus!!")
         this.updateUserAnswers()
         this.updateIsFinished()
+        this.props.navigation.navigate('Home')
       }
     }
+    
   }
   async updateUserAnswers(){
     for(let a =0; a < this.state.answers.length; a++){
-      let letters = Array(10)
+      let letters = []
       let letter = this.state.answers[a].answer.split('')
 
       for(let b = 0; b < letter.length; b++){
@@ -83,25 +95,34 @@ async  componentWillMount(){
           letter[b]
         )
       }
-      const rest = await axios.patch(`http://192.168.0.18:3333/api/user_answer/update`,{
-          userId : 1,
-          answerId : this.state.answers[a].id,
+      console.log()
+      let answerId = this.state.answers[a].id
+      const rest = await axios.patch(`http://${configs.BASE_URL}:3333/api/user_answer/update`,{
+          userId:this.state.userId,
+          answerId:answerId,
           answer : letters.join('')
         })
         .then((response) => {
           console.log(response)
         })
     }
+
   }
   async updateIsFinished(){
-    const rest = await axios.patch(`http://192.168.0.18:3333/api/user_crossword/update`,{
-      userId:2,
-      crosswordId: 2,
+    console.log("yeee")
+    console.log(this.state.userId)
+    console.log(this.state.crosswordId)
+    
+    const rest = await axios.patch(`http://${configs.BASE_URL}:3333/api/user_crossword/update`,{
+      userId:this.state.userId,
+      crosswordId:this.state.crosswordId,
       isFinished:1
+      
     })
     .then((response) =>{
       console.log(response)
     })
+
   }
   render() {
     var indexes = []
@@ -173,7 +194,7 @@ async  componentWillMount(){
             <Text style={styles.titleQuestionType}>Mendatar</Text>
               {
                 this.state.answers.map((item, index) => (
-                  item.type === "mendatar" ? <Text key={index}>{item.question}</Text> : null
+                  item.type === "mendatar" ? <Text key={index}>{item.number}. {item.question}</Text> : null
                 ))
               }
           </View>
@@ -181,7 +202,7 @@ async  componentWillMount(){
             <Text style={styles.titleQuestionType}>Menurun</Text>
             {
               this.state.answers.map((item, index) => (
-                item.type === "menurun" ? <Text key={index}>{item.question}</Text> : null        
+                item.type === "menurun" ? <Text key={index}>{item.number}. {item.question}</Text> : null        
               ))
             }
           </View>
