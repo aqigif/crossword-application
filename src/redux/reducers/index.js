@@ -4,7 +4,7 @@ import { createNavigationReducer } from 'react-navigation-redux-helpers';
 import RootNavigation from './../../navigations/Router';
 import auth from './authReducer';
 import crosswords from './crosswords';
-import home from './homeReducer';
+import menu from './homeReducer';
 
 const router = createNavigationReducer(RootNavigation);
 
@@ -12,7 +12,7 @@ const appReducer = combineReducers({
   router,
   auth,
   crosswords,
-  home
+  menu
 })
 
 export default appReducer

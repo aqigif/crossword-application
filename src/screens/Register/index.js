@@ -20,6 +20,7 @@ const axios = require('axios');
 
 import * as actionCrosswords from '../../redux/action';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 
 
 class Register extends Component {
@@ -87,12 +88,17 @@ render(){
     (this.state.isLoading==true) 
     ? 
     <View style={{flexGrow: 1,justifyContent:'center',alignItems: 'center'}}> 
+<StatusBar  barStyle='dark-content' backgroundColor="#f2fcfe" translucent = {false} />
       <Spinner color='#517da2' style={{justifyContent:"center"}} />
       <Text>Loading . . .</Text>
     </View>
     :
   <View style={styles.container}>
-<StatusBar  barStyle='dark-content' backgroundColor="#fff" translucent = {true} />
+   <LinearGradient colors={['#f2fcfe','#1c92d2']} style={{flex:1,width:"100%",
+  justifyContent:"center",
+  flexDirection:"column",
+  alignItems:"center",}} >
+<StatusBar  barStyle='dark-content' backgroundColor="#f2fcfe" translucent = {false} />
   <View style={styles.wrapperForm} >
   <Image source={require('../../assets/img/logo.png')} style={{resizeMode:"contain",width:80,height:80}} />
     <Text style={styles.title}>REGISTER NEW ACCOUNT</Text>
@@ -169,13 +175,13 @@ render(){
     <TouchableOpacity 
       
       onPress={()=>navigate('Login')}>
-      <Text style={{fontWeight:"bold",color:"#517da2"}}>Kembali Ke Login</Text>
+      <Text style={{fontWeight:"bold",color:"#f2fcfe",bottom:-10}}>Kembali Ke Login</Text>
     </TouchableOpacity>
 
 
 
 </View>
-
+</LinearGradient>
 </View>
 
 )}
@@ -220,16 +226,8 @@ inputBox: {
     fontSize:16,
     color:'grey',
     marginVertical: 10,
-    backgroundColor:"#ffff",
-    borderColor: "#1c313a",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
-    elevation: 9,
+    backgroundColor:"rgba(211, 235, 248, 1)",
+    
 },
 wrapperForm:{
   width:"100%",
