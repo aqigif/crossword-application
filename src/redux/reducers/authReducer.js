@@ -5,7 +5,7 @@ const initialState = {
   error: null,
   field: null,
   isLoading: false,
-  saveToken: null
+  saveToken: ''
 }
 
 function auth(state = initialState, action) {

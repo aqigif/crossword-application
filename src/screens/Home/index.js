@@ -30,16 +30,12 @@ class HomeScreen extends Component {
     this.state = {
     };
   }
-  async componentDidMount(){
+  async componentWillMount(){
     const valueToken= await AsyncStorage.getItem('token')
-    console.log(this.props.getMenu({token:valueToken}));
+    this.props.getMenu({token:valueToken})
 }
 
-  handleLogout = () =>{
-    AsyncStorage.clear()
-    this.props.navigation.navigate('Login')
-    alert('Berhasil Logout')
-  }
+  
   static navigationOptions  =  ({ navigation }) =>   {
     return {
     header: (

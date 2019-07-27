@@ -64,12 +64,14 @@ class Login extends Component {
       }else{ 
         await this.props.login({ email: this.state.inputEmail, password: this.state.inputPassword })
         if(this.props.auth.saveToken!=null){
+          console.log(this.props.auth.saveToken)
           this.props.navigation.navigate('Home')
         }  
     }
   }
 
 render(){
+  console.log(this.props.auth.saveToken)
   const field = this.props.auth.field
   return(
     (this.props.auth.isLoading===true) 
